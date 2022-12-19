@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
 import 'package:catalog_app/utils/routes.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +13,22 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String name = "";
   bool changeButton = false;
+  final _formKey = GlobalKey<FormState>();
+
+  moveToHome(BuildContext context) async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        changeButton = true;
+      });
+
+      await Future.delayed(Duration(seconds: 1));
+      await Navigator.pushNamed(context, MyRoutes.homeRoute);
+      setState(() {
+        changeButton = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -20,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Image.asset("assets/images/firstimage.png"),
+            Image.asset("assets/images/loginImage.png"),
             SizedBox(
               height: 30.0,
             ),
@@ -37,66 +53,76 @@ class _LoginPageState extends State<LoginPage> {
             Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
-              child: Column(
-                children: [
-                  TextFormField(
-                    autocorrect: false,
-                    onChanged: (value) {
-                      name = value;
-                      setState(() {});
-                    },
-                    decoration: InputDecoration(
-                      hintText: "Enter Username",
-                      label: Text("Username"),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      autocorrect: false,
+                      onChanged: (value) {
+                        name = value;
+                        setState(() {});
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Username cannot be empty";
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Enter Username",
+                        label: Text("Username"),
+                      ),
                     ),
-                  ),
-                  TextFormField(
-                    obscureText: true,
-                    autocorrect: false,
-                    decoration: InputDecoration(
-                      hintText: "Enter Password",
-                      label: Text("Password"),
+                    TextFormField(
+                      obscureText: true,
+                      autocorrect: false,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Password cannot be empty";
+                        } else if (value.length < 6) {
+                          return "Password should be atleast 6 character";
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Enter Password",
+                        label: Text("Password"),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             SizedBox(
               height: 20.0,
             ),
 
-            InkWell(
-              onTap: () async {
-                setState(() {
-                  changeButton = true;
-                });
-
-                await Future.delayed(Duration(seconds: 1));
-                Navigator.pushNamed(context, MyRoutes.homeRoute);
-              },
-              child: AnimatedContainer(
-                width: changeButton ? 100 : 150,
-                height: 50,
-                alignment: Alignment.center,
-                // ignore: sort_child_properties_last
-                child: changeButton
-                    ? Icon(
-                        Icons.done,
-                        color: Colors.white,
-                      )
-                    : Text(
-                        "Login",
-                        style: TextStyle(
+            Material(
+              borderRadius: BorderRadius.circular(changeButton ? 50 : 8),
+              color: Colors.deepPurple,
+              child: InkWell(
+                onTap: () => moveToHome(context),
+                child: AnimatedContainer(
+                  width: changeButton ? 100 : 150,
+                  height: 50,
+                  alignment: Alignment.center,
+                  // ignore: sort_child_properties_last
+                  child: changeButton
+                      ? Icon(
+                          Icons.done,
                           color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                        )
+                      : Text(
+                          "Login",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
                         ),
-                      ),
-                decoration: BoxDecoration(
-                  color: Colors.deepPurple,
-                  borderRadius: BorderRadius.circular(changeButton ? 50 : 8),
+                  duration: Duration(seconds: 1),
                 ),
-                duration: Duration(seconds: 1),
               ),
             ),
 
