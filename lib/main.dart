@@ -1,4 +1,5 @@
-import 'package:catalog_app/screens/login_page.dart';
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'screens/home_page.dart';
 import 'screens/login_page.dart';
