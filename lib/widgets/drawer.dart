@@ -13,6 +13,7 @@ class MyDrawer extends StatelessWidget {
       "https://pbs.twimg.com/profile_images/1515271138683002886/aMga018-_400x400.jpg";
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: Theme.of(context).backgroundColor,
       child: Container(
         color: Colors.deepPurple,
         child: ListView(
@@ -20,11 +21,9 @@ class MyDrawer extends StatelessWidget {
           // ignore: prefer_const_literals_to_create_immutables
           children: [
             DrawerHeader(
-              
               padding: EdgeInsets.zero,
               margin: EdgeInsets.zero,
               child: UserAccountsDrawerHeader(
-                
                 accountName: Text("Naman Jolly"),
                 accountEmail: Text("jolly@gmail.com"),
                 currentAccountPicture: CircleAvatar(
