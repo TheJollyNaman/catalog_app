@@ -20,9 +20,11 @@ class MyDrawer extends StatelessWidget {
           // ignore: prefer_const_literals_to_create_immutables
           children: [
             DrawerHeader(
+              
               padding: EdgeInsets.zero,
               margin: EdgeInsets.zero,
               child: UserAccountsDrawerHeader(
+                
                 accountName: Text("Naman Jolly"),
                 accountEmail: Text("jolly@gmail.com"),
                 currentAccountPicture: CircleAvatar(

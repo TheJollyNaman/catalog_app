@@ -11,7 +11,13 @@ class HomePage extends StatelessWidget {
     const String name = "Jolly";
     return Scaffold(
       appBar: AppBar(
-        title: Text("Helloo Bitchss"),
+        // backgroundColor: Colors.white,
+        // elevation: 0.0,
+        // iconTheme: IconThemeData(color: Colors.black),
+        title: Text(
+          "Catalog App",
+          //style: TextStyle(color: Colors.black),
+        ),
       ),
       body: Center(
         child: Text("Hello World by $name"),
